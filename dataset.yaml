@@ -1,0 +1,15 @@
+path: Dataset_split_smph  # <-- UBAH BAGIAN INI
+train: images/train       # Path ini sekarang akan relatif terhadap 'Dataset_split_smph'
+val: images/val         # Path ini sekarang akan relatif terhadap 'Dataset_split_smph'
+# test: (opsional)
+
+# Classes
+nc: 6
+
+names:
+  - cardboard
+  - glass
+  - metal
+  - paper
+  - plastic
+  - trash
