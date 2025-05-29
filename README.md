@@ -39,9 +39,9 @@ Sistem ini dirancang untuk membantu dalam identifikasi dan pemilahan sampah seca
 
 ## 🚀 Model & Performa
 
-* **Algoritma**: YOLOv8 (dikembangkan oleh Ultralytics)
+* **Algoritma**: YOLOv8 
 * **Akurasi**: 98% (pada dataset validasi/pengujian yang digunakan)
-* **Pelatihan**: Model dilatih selama **30 epoch** dengan ukuran **batch (batch size) 8** dan ukuran gambar input **(imgsize) 640x640 piksel**. *(Anda bisa menambahkan detail lain jika ada, misalnya jenis model YOLOv8 yang digunakan sebagai dasar seperti YOLOv8s, YOLOv8m, dll., atau apakah menggunakan pretrained weights).*
+* **Pelatihan**: Model dilatih selama **30 epoch** dengan ukuran **batch (batch size) 8** dan ukuran gambar input **(imgsize) 640x640 piksel**. 
 
 ## 💻 Cara Menggunakan Aplikasi Web (Hugging Face Spaces)
 
@@ -70,8 +70,8 @@ Jika Anda ingin menjalankan proyek ini secara lokal untuk pengembangan atau peng
 
 2.  **Clone Repository**:
     ```bash
-    git clone [URL_GITHUB_REPOSITORY_ANDA] # Ganti dengan URL GitHub repo Anda
-    cd [NAMA_FOLDER_REPOSITORY]       # Ganti dengan nama folder repo Anda
+    git clone (https://github.com/Arieffathin/image_detection_yolo) # Ganti dengan URL GitHub repo Anda
+    cd  image_detection_yolo     # Ganti dengan nama folder repo Anda
     ```
 
 3.  **Buat dan Aktifkan Virtual Environment (Sangat Direkomendasikan)**:
@@ -111,7 +111,7 @@ Jika Anda ingin menjalankan proyek ini secara lokal untuk pengembangan atau peng
 * **YOLOv8 (Ultralytics)**: Framework untuk model deteksi objek.
 * **PyTorch**: Deep learning framework yang menjadi dasar Ultralytics YOLOv8.
 * **Gradio**: Untuk membuat antarmuka web interaktif dengan cepat.
-* **OpenCV**: Untuk pemrosesan gambar (meskipun banyak ditangani oleh Ultralytics).
+* **OpenCV**: Untuk pemrosesan gambar.
 * **Hugging Face Spaces**: Platform untuk hosting dan deployment aplikasi ML.
 
 ## 💡 Potensi Pengembangan Selanjutnya
