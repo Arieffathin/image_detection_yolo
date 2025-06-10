@@ -68,7 +68,7 @@ def predict():
     except Exception as e:
         print(f"Error saat prediksi: {e}")
         return jsonify({'status': 'error', 'message': f'Terjadi kesalahan saat pemrosesan: {e}'}), 500
-
+        
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 7860))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
