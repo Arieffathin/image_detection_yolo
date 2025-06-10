@@ -6,7 +6,8 @@ from PIL import Image
 
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app) 
+
 
 MODEL_PATH = 'best.pt'
 
@@ -19,12 +20,19 @@ except Exception as e:
     model_yolo = None
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/', methods=['GET'])
+def health_check():
+    return jsonify({
+        "status": "ok",
+        "message": "Selamat! Server Flask v2 sedang berjalan!",
+        "version": "2.0" 
+    })
 
+
+@app.route('/predict', methods=['POST']) 
+def predict():
     if model_yolo is None:
         return jsonify({'status': 'error', 'message': 'Model tidak tersedia atau gagal dimuat.'}), 500
-
 
     if 'image' not in request.files:
         return jsonify({'status': 'error', 'message': 'File gambar tidak ditemukan dalam request.'}), 400
@@ -32,10 +40,7 @@ def predict():
     file = request.files['image']
 
     try:
-
         img = Image.open(file.stream).convert("RGB")
-        
-
         results = model_yolo.predict(source=img, conf=0.25, verbose=False)
 
         detected_objects_list = []
@@ -44,7 +49,6 @@ def predict():
             for box in results[0].boxes:
                 cls_id = int(box.cls[0])
                 confidence = float(box.conf[0])
-
                 class_name = model_yolo.names.get(cls_id, f"ID_Kelas:{cls_id}")
                 
                 detected_objects_list.append({
