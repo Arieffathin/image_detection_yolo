@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "--workers=2", "--bind=0.0.0.0:7860", "app:app"]
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:7860", "app_flask:app"]
