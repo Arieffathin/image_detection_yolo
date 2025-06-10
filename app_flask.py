@@ -8,10 +8,13 @@ from PIL import Image, UnidentifiedImageError
 app = Flask(__name__)
 CORS(app)
 
+# Maksimum file upload: 5MB (opsional)
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  
+
 print("🔄 Memuat model YOLO...")
 try:
     model = YOLO("best.pt")
-    print(f"✅ Model berhasil dimuat dengan kelas: {model.names}")
+    print(f"✅ Model berhasil dimuat. Kelas: {model.names}")
 except Exception as e:
     print(f"❌ Gagal memuat model: {e}")
     model = None
@@ -20,31 +23,35 @@ except Exception as e:
 def index():
     return jsonify({
         "status": "ok",
-        "message": "Server Flask v2 aktif 🚀",
+        "message": "Server Flask YOLO aktif 🚀",
         "version": "2.0"
     })
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    print("📩 Menerima POST /predict")
+    print("📩 POST /predict diterima")
 
     if model is None:
-        print("❌ Model belum tersedia.")
+        print("❌ Model tidak tersedia.")
         return jsonify({"status": "error", "message": "Model tidak tersedia."}), 500
 
-    if 'image' not in request.files:
-        print("⚠️ Gambar tidak dikirim.")
+    if "image" not in request.files:
+        print("⚠️ Tidak ada file gambar dikirim.")
         return jsonify({"status": "error", "message": "Gambar tidak ditemukan dalam request."}), 400
 
+    file = request.files["image"]
+    
+    # Validasi ekstensi (opsional)
+    if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
+        return jsonify({"status": "error", "message": "Format file tidak didukung. Gunakan .jpg/.png"}), 400
+
     try:
-        file = request.files['image']
         img = Image.open(file.stream).convert("RGB")
+        img = img.resize((640, 640))  # resize untuk hemat RAM
+        print("📷 Gambar berhasil dibuka dan diresize")
 
-        # Resize gambar agar tidak boros memori
-        img = img.resize((640, 640))
-
-        print("🧠 Melakukan prediksi...")
         results = model.predict(img, conf=0.25, verbose=False)
+        print("✅ Prediksi selesai")
 
         detections = []
         for box in results[0].boxes:
@@ -59,17 +66,18 @@ def predict():
                 "bounding_box (xyxy)": xyxy
             })
 
-        print(f"✅ Ditemukan {len(detections)} objek")
+        print(f"🎯 {len(detections)} objek terdeteksi")
         return jsonify({"status": "success", "detections": detections})
 
     except UnidentifiedImageError:
-        print("❌ Gagal membuka gambar.")
-        return jsonify({"status": "error", "message": "File bukan gambar valid."}), 400
+        print("❌ File bukan gambar valid.")
+        return jsonify({"status": "error", "message": "File bukan gambar yang valid."}), 400
 
     except Exception as e:
         print(f"❌ Error saat prediksi: {e}")
-        return jsonify({"status": "error", "message": f"Terjadi kesalahan: {e}"}), 500
+        return jsonify({"status": "error", "message": f"Terjadi kesalahan saat prediksi: {str(e)}"}), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
+    print(f"🚀 Server berjalan di http://0.0.0.0:{port}")
     app.run(host="0.0.0.0", port=port)
