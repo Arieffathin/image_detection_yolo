@@ -38,4 +38,4 @@ COPY . .
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:7860", "app:app"]
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:7860", "app_flask:app"]
