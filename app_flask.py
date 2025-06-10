@@ -19,6 +19,9 @@ try:
 except Exception as e:
     print(f"Error saat memuat model YOLO: {e}")
     model_yolo = None
+    
+img = Image.open(file.stream).convert("RGB")
+img = img.resize((640, 640))  # Hemat RAM!
 
 
 @app.route('/', methods=['GET'])
