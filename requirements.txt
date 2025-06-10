@@ -1,8 +1,11 @@
-ultralytics
-Flask
-gunicorn
-flask-cors
-Pillow
-torch
-torchvision
-opencv-python
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+Flask==2.3.2
+gunicorn==21.2.0
+Pillow==10.1.0
+torch==2.1.0
+torchvision==0.16.0
+ultralytics==8.0.227
+opencv-python-headless==4.8.1.78
+flask-cors==4.0.0
+numpy==1.26.4
