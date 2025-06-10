@@ -35,4 +35,5 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
 
 # Gunicorn server
-CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:7860", "app_flask:app"]
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:8080", "app_flask:app"]
+
