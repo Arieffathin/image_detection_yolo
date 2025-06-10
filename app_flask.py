@@ -28,17 +28,19 @@ def predict():
     print("📩 POST /predict diterima")
 
     if model is None:
+        print("❌ Model belum dimuat.")
         return jsonify({"status": "error", "message": "Model tidak tersedia"}), 500
 
     if "image" not in request.files:
+        print("⚠️ Gambar tidak ditemukan dalam request.")
         return jsonify({"status": "error", "message": "Gambar tidak ditemukan"}), 400
 
     try:
         file = request.files["image"]
         img = Image.open(file.stream).convert("RGB")
-        img = img.resize((640, 640))  # RAM-friendly
+        img = img.resize((320, 320))  # 🔧 Resize LEBIH kecil → hemat RAM
 
-        print("🔍 Menjalankan prediksi YOLO...")
+        print("🧠 Memulai prediksi YOLO...")
         results = model.predict(img, conf=0.25, verbose=False)
         print("✅ Prediksi selesai")
 
@@ -55,12 +57,14 @@ def predict():
                 "bounding_box (xyxy)": bbox
             })
 
+        print(f"🔍 Total deteksi: {len(detections)}")
         return jsonify({"status": "success", "detections": detections})
 
     except UnidentifiedImageError:
+        print("❌ File bukan gambar valid.")
         return jsonify({"status": "error", "message": "File bukan gambar valid"}), 400
     except Exception as e:
-        print(f"❌ Error saat prediksi: {e}")
+        print(f"❌ Terjadi error saat prediksi: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == "__main__":
