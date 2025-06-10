@@ -1,5 +1,8 @@
+ultralytics
+Flask
+gunicorn
+flask-cors
+Pillow
 torch
 torchvision
-ultralytics
-gradio
 opencv-python
