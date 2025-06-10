@@ -1,83 +1,74 @@
 import io
-import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from ultralytics import YOLO
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
+import os
+
 
 app = Flask(__name__)
-CORS(app)
+CORS(app) 
 
-# Maksimum file upload: 5MB (opsional)
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  
 
-print("🔄 Memuat model YOLO...")
+MODEL_PATH = 'best.pt'
+
+print("Mencoba memuat model YOLO...")
 try:
-    model = YOLO("best.pt")
-    print(f"✅ Model berhasil dimuat. Kelas: {model.names}")
+    model_yolo = YOLO(MODEL_PATH)
+    print(f"Model YOLO berhasil dimuat. Kelas: {model_yolo.names}")
 except Exception as e:
-    print(f"❌ Gagal memuat model: {e}")
-    model = None
+    print(f"Error saat memuat model YOLO: {e}")
+    model_yolo = None
 
-@app.route("/", methods=["GET"])
-def index():
+
+@app.route('/', methods=['GET'])
+def health_check():
     return jsonify({
         "status": "ok",
-        "message": "Server Flask YOLO aktif 🚀",
-        "version": "2.0"
+        "message": "Selamat! Server Flask v2 sedang berjalan!",
+        "version": "2.0" 
     })
 
-@app.route("/predict", methods=["POST"])
+
+@app.route('/predict', methods=['POST']) 
 def predict():
-    print("📩 POST /predict diterima")
+    if model_yolo is None:
+        return jsonify({'status': 'error', 'message': 'Model tidak tersedia atau gagal dimuat.'}), 500
 
-    if model is None:
-        print("❌ Model tidak tersedia.")
-        return jsonify({"status": "error", "message": "Model tidak tersedia."}), 500
+    if 'image' not in request.files:
+        return jsonify({'status': 'error', 'message': 'File gambar tidak ditemukan dalam request.'}), 400
 
-    if "image" not in request.files:
-        print("⚠️ Tidak ada file gambar dikirim.")
-        return jsonify({"status": "error", "message": "Gambar tidak ditemukan dalam request."}), 400
-
-    file = request.files["image"]
-    
-    # Validasi ekstensi (opsional)
-    if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
-        return jsonify({"status": "error", "message": "Format file tidak didukung. Gunakan .jpg/.png"}), 400
+    file = request.files['image']
 
     try:
         img = Image.open(file.stream).convert("RGB")
-        img = img.resize((640, 640))  # resize untuk hemat RAM
-        print("📷 Gambar berhasil dibuka dan diresize")
+        results = model_yolo.predict(source=img, conf=0.25, verbose=False)
 
-        results = model.predict(img, conf=0.25, verbose=False)
-        print("✅ Prediksi selesai")
+        detected_objects_list = []
+        if results and results[0].boxes.shape[0] > 0:
+            print(f"Objek terdeteksi: {len(results[0].boxes)}")
+            for box in results[0].boxes:
+                cls_id = int(box.cls[0])
+                confidence = float(box.conf[0])
+                class_name = model_yolo.names.get(cls_id, f"ID_Kelas:{cls_id}")
+                
+                detected_objects_list.append({
+                    "jenis_sampah": class_name,
+                    "confidence": round(confidence, 2),
+                    "bounding_box (xyxy)": [round(coord, 2) for coord in box.xyxy[0].tolist()]
+                })
+        else:
+            print("Tidak ada objek yang terdeteksi.")
 
-        detections = []
-        for box in results[0].boxes:
-            cls_id = int(box.cls[0])
-            confidence = float(box.conf[0])
-            label = model.names.get(cls_id, f"Class_{cls_id}")
-            xyxy = [round(float(x), 2) for x in box.xyxy[0]]
-
-            detections.append({
-                "jenis_sampah": label,
-                "confidence": round(confidence, 2),
-                "bounding_box (xyxy)": xyxy
-            })
-
-        print(f"🎯 {len(detections)} objek terdeteksi")
-        return jsonify({"status": "success", "detections": detections})
-
-    except UnidentifiedImageError:
-        print("❌ File bukan gambar valid.")
-        return jsonify({"status": "error", "message": "File bukan gambar yang valid."}), 400
+        return jsonify({
+            'status': 'success',
+            'detections': detected_objects_list
+        })
 
     except Exception as e:
-        print(f"❌ Error saat prediksi: {e}")
-        return jsonify({"status": "error", "message": f"Terjadi kesalahan saat prediksi: {str(e)}"}), 500
+        print(f"Error saat prediksi: {e}")
+        return jsonify({'status': 'error', 'message': f'Terjadi kesalahan saat pemrosesan: {e}'}), 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    print(f"🚀 Server berjalan di http://0.0.0.0:{port}")
+    port = int(os.environ.get("PORT", 7860))
     app.run(host="0.0.0.0", port=port)
