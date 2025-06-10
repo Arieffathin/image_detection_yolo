@@ -8,77 +8,68 @@ from PIL import Image, UnidentifiedImageError
 app = Flask(__name__)
 CORS(app)
 
-MODEL_PATH = 'best.pt'
-
-print("🚀 Mencoba memuat model YOLO...")
+print("🔄 Memuat model YOLO...")
 try:
-    model_yolo = YOLO(MODEL_PATH)
-    print(f"✅ Model YOLO berhasil dimuat. Kelas: {model_yolo.names}")
+    model = YOLO("best.pt")
+    print(f"✅ Model berhasil dimuat dengan kelas: {model.names}")
 except Exception as e:
-    print(f"❌ Error saat memuat model YOLO: {e}")
-    model_yolo = None
+    print(f"❌ Gagal memuat model: {e}")
+    model = None
 
-@app.route('/', methods=['GET'])
-def health_check():
+@app.route("/", methods=["GET"])
+def index():
     return jsonify({
         "status": "ok",
-        "message": "Selamat! Server Flask v2 sedang berjalan!",
+        "message": "Server Flask v2 aktif 🚀",
         "version": "2.0"
     })
 
-@app.route('/predict', methods=['POST'])
+@app.route("/predict", methods=["POST"])
 def predict():
-    print("📩 Request POST /predict diterima")
+    print("📩 Menerima POST /predict")
 
-    if model_yolo is None:
-        print("❌ Model belum dimuat.")
-        return jsonify({'status': 'error', 'message': 'Model tidak tersedia atau gagal dimuat.'}), 500
+    if model is None:
+        print("❌ Model belum tersedia.")
+        return jsonify({"status": "error", "message": "Model tidak tersedia."}), 500
 
     if 'image' not in request.files:
-        print("⚠️ Gambar tidak ditemukan dalam request.")
-        return jsonify({'status': 'error', 'message': 'File gambar tidak ditemukan dalam request.'}), 400
-
-    file = request.files['image']
+        print("⚠️ Gambar tidak dikirim.")
+        return jsonify({"status": "error", "message": "Gambar tidak ditemukan dalam request."}), 400
 
     try:
-        print("🖼️ Membuka gambar...")
+        file = request.files['image']
         img = Image.open(file.stream).convert("RGB")
+
+        # Resize gambar agar tidak boros memori
+        img = img.resize((640, 640))
+
+        print("🧠 Melakukan prediksi...")
+        results = model.predict(img, conf=0.25, verbose=False)
+
+        detections = []
+        for box in results[0].boxes:
+            cls_id = int(box.cls[0])
+            confidence = float(box.conf[0])
+            label = model.names.get(cls_id, f"Class_{cls_id}")
+            xyxy = [round(float(x), 2) for x in box.xyxy[0]]
+
+            detections.append({
+                "jenis_sampah": label,
+                "confidence": round(confidence, 2),
+                "bounding_box (xyxy)": xyxy
+            })
+
+        print(f"✅ Ditemukan {len(detections)} objek")
+        return jsonify({"status": "success", "detections": detections})
+
     except UnidentifiedImageError:
-        print("❌ File yang dikirim bukan gambar valid.")
-        return jsonify({'status': 'error', 'message': 'File bukan gambar yang valid.'}), 400
-    except Exception as e:
-        print(f"❌ Gagal membuka gambar: {e}")
-        return jsonify({'status': 'error', 'message': f'Gagal membuka gambar: {e}'}), 400
-
-    try:
-        print("🤖 Melakukan prediksi...")
-        results = model_yolo.predict(source=img, conf=0.25, verbose=False)
-
-        detected_objects_list = []
-        if results and results[0].boxes.shape[0] > 0:
-            print(f"✅ Objek terdeteksi: {len(results[0].boxes)}")
-            for box in results[0].boxes:
-                cls_id = int(box.cls[0])
-                confidence = float(box.conf[0])
-                class_name = model_yolo.names.get(cls_id, f"ID_Kelas:{cls_id}")
-                detected_objects_list.append({
-                    "jenis_sampah": class_name,
-                    "confidence": round(confidence, 2),
-                    "bounding_box (xyxy)": [round(coord, 2) for coord in box.xyxy[0].tolist()]
-                })
-        else:
-            print("🔍 Tidak ada objek yang terdeteksi.")
-
-        return jsonify({
-            'status': 'success',
-            'detections': detected_objects_list
-        })
+        print("❌ Gagal membuka gambar.")
+        return jsonify({"status": "error", "message": "File bukan gambar valid."}), 400
 
     except Exception as e:
         print(f"❌ Error saat prediksi: {e}")
-        return jsonify({'status': 'error', 'message': f'Terjadi kesalahan saat prediksi: {str(e)}'}), 500
+        return jsonify({"status": "error", "message": f"Terjadi kesalahan: {e}"}), 500
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    print(f"🚦 Menjalankan server Flask di port {port}...")
-    app.run(host='0.0.0.0', port=port)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
