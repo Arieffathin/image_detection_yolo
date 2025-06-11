@@ -1,12 +1,13 @@
 Sortify AI - Backend & Machine Learning API
+
 Overview
 This is the backend service for the Sortify AI platform. It serves a YOLOv8 waste detection model via a REST API, processing image uploads and returning results in JSON format. The service is containerized with Docker and deployed on Hugging Face Spaces for portability and scalability.
 
 Features
-⚙️ AI-Powered Waste Classification API: Provides a dedicated endpoint for image analysis.
-👁️ YOLOv8 Model Integration: Performs inference using a custom-trained best.pt model to detect 6 classes of waste.
-🖼️ Image Upload Handling: Designed to accept image inputs via multipart/form-data.
-📄 Structured JSON Response: Delivers a clear output containing waste class, confidence score, and bounding box coordinates.
+🤖 AI-Powered Waste Classification API: Provides a dedicated endpoint for image analysis.
+🧠 YOLOv8 Model Integration: Performs inference using a custom-trained best.pt model to detect 6 classes of waste.
+📤 Image Upload Handling: Designed to accept image inputs via multipart/form-data.
+📦 Structured JSON Response: Delivers a clear output containing waste class, confidence score, and bounding box coordinates.
 🐳 Dockerized for Portability: Ensures a consistent environment from local development to production.
 ☁️ Cloud-Deployed: Publicly hosted on Hugging Face Spaces to be accessed by the frontend application.
 
