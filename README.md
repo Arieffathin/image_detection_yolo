@@ -1,89 +1,120 @@
-Sortify AI - Backend & Machine Learning API
+---
 
-Overview
-This is the backend service for the Sortify AI platform. It serves a YOLOv8 waste detection model via a REST API, processing image uploads and returning results in JSON format. The service is containerized with Docker and deployed on Hugging Face Spaces for portability and scalability.
+# Sortify AI – Backend & Machine Learning API
 
-Features
-🤖 AI-Powered Waste Classification API: Provides a dedicated endpoint for image analysis.
-🧠 YOLOv8 Model Integration: Performs inference using a custom-trained best.pt model to detect 6 classes of waste.
-📤 Image Upload Handling: Designed to accept image inputs via multipart/form-data.
-📦 Structured JSON Response: Delivers a clear output containing waste class, confidence score, and bounding box coordinates.
-🐳 Dockerized for Portability: Ensures a consistent environment from local development to production.
-☁️ Cloud-Deployed: Publicly hosted on Hugging Face Spaces to be accessed by the frontend application.
+## Overview
 
+Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend ini melayani model deteksi sampah berbasis YOLOv8 melalui REST API, memproses gambar yang diunggah, dan mengembalikan hasil klasifikasi dalam format JSON. Aplikasi ini dikontainerisasi dengan Docker dan dideploy di **Hugging Face Spaces** untuk kemudahan distribusi dan skalabilitas.
 
-Tech Stack
-Language: Python 3.9
-Framework: Flask
-WSGI Server: Gunicorn
-Machine Learning: Ultralytics (YOLOv8), PyTorch, OpenCV
-Others: Flask-CORS
-Containerization: Docker
-Prerequisites
-To run this project locally, you will need:
+---
 
-Python (v3.9 or higher)
-pip (package installer for Python)
-virtualenv (recommended for creating isolated environments)
-Getting Started
-Follow these steps to run the server on your local machine.
+## Features
 
-Clone the repository
+* 🤖 **AI-Powered Waste Classification API**
+  Endpoint khusus untuk analisis gambar berbasis AI.
+* 🧠 **YOLOv8 Model Integration**
+  Menggunakan model YOLOv8 terlatih (`best.pt`) untuk mendeteksi 6 jenis sampah.
+* 📤 **Image Upload Handling**
+  Mendukung pengunggahan gambar via `multipart/form-data`.
+* 📦 **Structured JSON Response**
+  Hasil deteksi menyertakan jenis sampah, tingkat kepercayaan, dan koordinat bounding box.
+* 🐳 **Dockerized for Portability**
+  Menjamin konsistensi lingkungan antara development dan production.
+* ☁️ **Cloud-Deployed**
+  Dihosting secara publik di Hugging Face Spaces untuk integrasi langsung dengan frontend.
 
-Bash
+---
 
-git clone (https://github.com/Arieffathin/image_detection_yolo.git)
+## Tech Stack
+
+* **Language**: Python 3.9
+* **Framework**: Flask
+* **Server**: Gunicorn
+* **Machine Learning**: YOLOv8 (Ultralytics), PyTorch, OpenCV
+* **CORS**: Flask-CORS
+* **Containerization**: Docker
+
+---
+
+## Prerequisites
+
+Sebelum menjalankan proyek ini secara lokal, pastikan Anda memiliki:
+
+* Python v3.9 atau lebih tinggi
+* pip (Python package installer)
+* `virtualenv` (opsional tapi direkomendasikan)
+
+---
+
+## Getting Started
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/Arieffathin/image_detection_yolo.git
 cd image_detection_yolo
-Create and activate a virtual environment
+```
 
-Bash
+### 2. Buat dan aktifkan virtual environment
 
-# Create the environment
+```bash
+# Membuat environment
 python -m venv venv
 
-# Activate on Windows
+# Windows
 .\venv\Scripts\activate
 
-# Activate on MacOS/Linux
+# MacOS/Linux
 source venv/bin/activate
-Install dependencies
+```
 
-Bash
+### 3. Instal dependencies
 
+```bash
 pip install -r requirements.txt
-Run the development server
-Make sure the best.pt file is in the same folder.
+```
 
-Bash
+### 4. Jalankan server lokal
 
-# Use your correct .py filename
-python app_flask.py 
-The server is now running on http://127.0.0.1:5000.
+Pastikan file `best.pt` berada di direktori yang sama.
 
-Project Structure
+```bash
+python app_flask.py
+```
+
+Akses server lokal di: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+---
+
+## Project Structure
+
+```
 .
-├── app_flask.py        # Main Flask application logic
-├── best.pt             # YOLOv8 model weights file
-├── Dockerfile          # Recipe for building the Docker image
-├── requirements.txt    # List of required Python libraries
-└── README.md           # This documentation
+├── app_flask.py       # Logika utama aplikasi Flask
+├── best.pt            # File model YOLOv8 terlatih
+├── Dockerfile         # Konfigurasi image Docker
+├── requirements.txt   # Daftar dependensi Python
+└── README.md          # Dokumentasi proyek
+```
 
-Prediction Endpoint
-POST /predict
-This endpoint is used to send an image and get detection results.
+---
 
-URL: https://notnith-deteksi-sampah-sprtofy.hf.space/predict
+## Prediction Endpoint
 
-Method: POST
-Body: form-data
+### POST `/predict`
 
-Key: image
-Type: File
-Value: [Select your image file]
-Success Response (200 OK):
+* **URL**:
+  `https://notnith-deteksi-sampah-sprtofy.hf.space/predict`
+* **Method**: POST
+* **Body**: `form-data`
 
-JSON
+  * **Key**: `image`
+  * **Type**: File
+  * **Value**: \[Upload file gambar Anda]
 
+####  Response: 200 OK
+
+```json
 {
   "status": "success",
   "detections": [
@@ -94,19 +125,32 @@ JSON
     }
   ]
 }
-Error Response (400/500):
+```
 
-JSON
+####  Error Response (400/500)
 
+```json
 {
   "status": "error",
   "message": "Image file not found in request."
 }
-Deployment
-This API application is publicly deployed on Hugging Face Spaces and can be accessed via the following base URL:
-https://huggingface.co/spaces/Notnith/Deteksi-sampah_sprtofy
+```
 
-Note: Replace with your correct Space URL if different.
+---
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Deployment
+
+API ini telah dideploy secara publik dan dapat diakses melalui:
+**[Hugging Face Spaces](https://huggingface.co/spaces/Notnith/Deteksi-sampah_sprtofy)**
+
+
+
+---
+
+## License
+
+Proyek ini dilisensikan di bawah **MIT License**. Lihat file `LICENSE` untuk informasi lebih lanjut.
+
+---
+
+Silakan beri tahu jika Anda ingin saya menggabungkan frontend dan backend menjadi satu dokumentasi terpadu atau jika Anda ingin bantuan untuk membuat file `README.md`.
