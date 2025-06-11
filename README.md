@@ -153,4 +153,4 @@ Proyek ini dilisensikan di bawah **MIT License**. Lihat file `LICENSE` untuk inf
 
 ---
 
-Kontributor[Arief Fathin Abrar][Gita Karisma][Harist Islami Ridha]
+Kontributor [Arief Fathin Abrar] [Gita Karisma] [Harist Islami Ridha]
