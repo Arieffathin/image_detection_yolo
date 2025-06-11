@@ -31,8 +31,8 @@ Clone the repository
 
 Bash
 
-git clone [your-repository-url]
-cd [repository-folder-name]
+git clone (https://github.com/Arieffathin/image_detection_yolo.git)
+cd image_detection_yolo
 Create and activate a virtual environment
 
 Bash
