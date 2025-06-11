@@ -153,4 +153,4 @@ Proyek ini dilisensikan di bawah **MIT License**. Lihat file `LICENSE` untuk inf
 
 ---
 
-Silakan beri tahu jika Anda ingin saya menggabungkan frontend dan backend menjadi satu dokumentasi terpadu atau jika Anda ingin bantuan untuk membuat file `README.md`.
+Kontributor[Arief Fathin Abrar][Gita Karisma][Harist Islami Ridha]
