@@ -41,8 +41,8 @@ Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend 
 Sebelum menjalankan proyek ini secara lokal, pastikan Anda memiliki:
 
 * Python v3.9 atau lebih tinggi
-* pip (Python package installer)
-* `virtualenv` (opsional tapi direkomendasikan)
+* pip 
+* `virtualenv` 
 
 ---
 
@@ -110,7 +110,7 @@ Akses server lokal di: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
   * **Key**: `image`
   * **Type**: File
-  * **Value**: \[Upload file gambar Anda]
+  * **Value**: \[Upload file gambar]
 
 ####  Response: 200 OK
 
