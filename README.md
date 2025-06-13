@@ -34,14 +34,18 @@ Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend 
 
 ---
 
-## Tech Stack
+## 🧰 Tech Stack
 
-* **Language**: Python 3.9
-* **Framework**: Flask
-* **Server**: Gunicorn
-* **Machine Learning**: YOLOv8 (Ultralytics), PyTorch, OpenCV
-* **CORS**: Flask-CORS
-* **Containerization**: Docker
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9-blue?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask-API-black?logo=flask" />
+  <img src="https://img.shields.io/badge/Gunicorn-Server-009688?logo=gunicorn&logoColor=white" />
+  <img src="https://img.shields.io/badge/YOLOv8-Ultralytics-00BFFF?logo=ultralytics" />
+  <img src="https://img.shields.io/badge/PyTorch-ML-orange?logo=pytorch&logoColor=white" />
+  <img src="https://img.shields.io/badge/OpenCV-Image_Processing-green?logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask--CORS-CORS-blueviolet" />
+  <img src="https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white" />
+</p>
 
 ---
 
