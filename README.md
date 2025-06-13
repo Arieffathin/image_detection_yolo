@@ -37,15 +37,16 @@ Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend 
 ## 🧰 Tech Stack
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flask-API-000000?logo=flask&logoColor=white" />
-  <img src="https://img.shields.io/badge/Gunicorn-Server-00695C?logo=gunicorn&logoColor=white" />
-  <img src="https://img.shields.io/badge/YOLOv8-Ultralytics-00CFFF?logo=ultralytics&logoColor=white" />
-  <img src="https://img.shields.io/badge/PyTorch-ML-EE4C2C?logo=pytorch&logoColor=white" />
-  <img src="https://img.shields.io/badge/OpenCV-Image_Processing-5C8DBC?logo=opencv&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flask--CORS-CORS-9B59B6?logo=flask&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3.9-4584b6?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask-API-333333?logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/Gunicorn-Server-26A69A?logo=gunicorn&logoColor=white" />
+  <img src="https://img.shields.io/badge/YOLOv8-Ultralytics-00BFFF?logo=ultralytics&logoColor=white" />
+  <img src="https://img.shields.io/badge/PyTorch-ML-FF7043?logo=pytorch&logoColor=white" />
+  <img src="https://img.shields.io/badge/OpenCV-Image_Processing-66BB6A?logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask--CORS-CORS-BA68C8?logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-Containerization-29B6F6?logo=docker&logoColor=white" />
 </p>
+
 
 
 
