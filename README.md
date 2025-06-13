@@ -5,7 +5,7 @@
 <p align="center">
   <img src="Image/huggingface.png" alt="Hugging Face" width="250" style="margin-right: 30px;"/>
   <img src="Image/ultralyticslogo.png" alt="Ultralytics" width="250" style="margin: 0 30px;"/>
-  <img src="Image/flask.png" alt="Flask" width="250" style="margin-left: 30px;"/>
+  <img src="Image/flasklogo.png" alt="Flask" width="250" style="margin-left: 30px;"/>
 </p>
 
 ## Overview
