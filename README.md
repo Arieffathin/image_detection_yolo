@@ -35,6 +35,7 @@ Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend 
 ---
 
 ## 🧰 Tech Stack
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Flask-API-000000?logo=flask&logoColor=white" />
@@ -45,6 +46,7 @@ Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend 
   <img src="https://img.shields.io/badge/Flask--CORS-CORS-9B59B6?logo=flask&logoColor=white" />
   <img src="https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white" />
 </p>
+
 
 
 ---
