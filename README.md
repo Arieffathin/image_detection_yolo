@@ -13,7 +13,7 @@
 
 ## Overview
 
-Sortify AI – Backend adalah layanan server untuk platform Sortify AI. Backend ini melayani model deteksi sampah berbasis YOLOv8 melalui REST API, memproses gambar yang diunggah, dan mengembalikan hasil klasifikasi dalam format JSON. Aplikasi ini dikontainerisasi dengan Docker dan dideploy di **Hugging Face Spaces** untuk kemudahan distribusi dan skalabilitas.
+Sortify AI – Backend  layanan server untuk platform Sortify AI. Backend ini melayani model deteksi sampah berbasis YOLOv8 melalui REST API, memproses gambar yang diunggah, dan mengembalikan hasil klasifikasi dalam format JSON. Aplikasi ini dikontainerisasi dengan Docker dan dideploy di **Hugging Face Spaces** untuk kemudahan distribusi dan skalabilitas.
 
 ---
 
